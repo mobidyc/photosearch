@@ -2,3 +2,5 @@
 node_modules/
 DISPLAY/
 tags.txt
+indexer/node_modules
+indexer/photos
