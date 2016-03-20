@@ -1,0 +1,29 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-xs-12 col-md-4 col-md-offset-4"> 
+      <color-picker ng-model="color" color-picker-format="'hsv'"
+        color-picker-alpha=" false"
+        color-picker-swatch="true"    
+        color-picker-case="'upper'"
+        color-picker-on-change="onColorChange($event, color)">
+      </color-picker>
+    </div> 
+  </div>
+  <div class="row">
+    <div class="col-xs-12 col-md-4 col-md-offset-4" ng-hide="photos.length">No results</div>
+  </div>
+  <div class="row results">
+
+    <div masonry masonry-options="{ transitionDuration: '0.4s', gutter:1}">
+        <span class="col-xs-12 col-md-3 masonry-brick" ng-repeat="photo in photos">
+          <img class="img-thumbnail"ng-src="photos/{{photo.file_name}}" alt="{{photo._score}}">
+        </span>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="load-more col-xs-offset-4 col-xs-4 col-md-1 col-md-offset-5" ng-hide="allResultsShown" ng-cloak>
+      <a class="btn btn-primary" ng-click="loadMore()">More...</a>
+    </div>
+  </div>
+</div>

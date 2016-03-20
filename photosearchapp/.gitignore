@@ -1,0 +1,12 @@
+logs/*
+!.gitkeep
+node_modules/
+tmp
+.DS_Store
+.idea
+D2/
+DISPLAY/
+photosearchapp/app/npm-debug.log
+photosearchapp/app/bower_components
+npm-debug.log
+
