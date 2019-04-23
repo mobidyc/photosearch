@@ -1,20 +1,43 @@
-#Building a photosearch with Elastic Search 
-#Read more at: http://blog.sandeepchivukula.com/
+version: '3.6'
+services:
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.0.0
+    container_name: elasticsearch
+    secrets:
+      - source: elasticsearch.yml
+        target: /usr/share/elasticsearch/config/elasticsearch.yml
+    ports: ['9200:9200']
+    networks: ['stack']
+    volumes:
+      - 'es_data:/usr/share/elasticsearch/data'
+    healthcheck:
+      test: curl -s https://localhost:9200 >/dev/null; if [[ $$? == 52 ]]; then echo 0; else echo 1; fi
+      interval: 30s
+      timeout: 10s
+      retries: 5
 
-elasticsearch-1:
-     image: elasticsearch
-     container_name: elasticsearch-1
-     ports:
-        - "9200:9200"
-        - "9300:9300"
-     volumes:
-        - ./data/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
-     command: elasticsearch
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.0.0
+    container_name: kibana
+    secrets:
+      - source: kibana.yml
+        target: /usr/share/kibana/config/kibana.yml
+    ports: ['5601:5601']
+    networks: ['stack']
+    depends_on: ['elasticsearch']
+    healthcheck:
+      test: curl -s https://localhost:5601 >/dev/null; if [[ $$? == 52 ]]; then echo 0; else echo 1; fi
+      interval: 30s
+      timeout: 10s
+      retries: 5
 
-kibana-frontend:
-     image: kibana:latest
-     container_name: kibana-frontend
-     ports:
-        - "5601:5601"
-     links:
-       - elasticsearch-1:elasticsearch
+networks: {stack: {}}
+# use docker volume to persist ES data outside of a container.
+volumes:
+  es_data:
+
+secrets:
+  elasticsearch.yml:
+    file: ./docker-configs/elasticsearch.yml
+  kibana.yml:
+    file: ./docker-configs/kibana.yml
