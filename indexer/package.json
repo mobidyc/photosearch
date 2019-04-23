@@ -4,12 +4,12 @@
   "description": "Node js script to index photos into ES using the exiftool. Extended from https://github.com/jettro/nodejs-photo-indexer/",
   "main": "index.js",
   "dependencies": {
-    "canvas": "^1.3.10",
-    "color-convert": "^1.0.0",
-    "colors-palette": "0.0.4",
-    "elasticsearch": "",
+    "@elastic/elasticsearch": "",
+    "color-convert": "^2.0",
+    "colors-palette": "",
     "exif2": "",
-    "palette": "0.0.1",
+    "get-image-colors": "",
+    "nan": "^2.13.2",
     "walk": ""
   },
   "author": "Sandeep Chivukula",
